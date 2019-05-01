@@ -10,7 +10,7 @@ class User < ApplicationRecord
   def transactions(status=nil)
     q = Transaction.where('sender_id = ? OR receiver_id = ?', id, id)
     q = q.where(status: status) if status.present?
-    q
+    q.order(:created_at)
   end
 
   def balance(currency, pending_debits=false)
