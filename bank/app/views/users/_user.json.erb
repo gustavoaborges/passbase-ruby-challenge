@@ -1,0 +1,8 @@
+[
+  <% @users.each_with_index do |user, i| %>
+  {
+    "id": <%=user.id%>,
+    "name": "<%=user.full_name%>"
+  }<% if (i + 1) < @users.length %>,<%end%>
+  <% end %>
+]
