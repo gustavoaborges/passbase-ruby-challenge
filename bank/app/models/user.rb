@@ -4,13 +4,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :sender_transactions, class_name: 'Transaction', foreign_keys: :sender_id
-  has_many :receiver_transactions, class_name: 'Transaction', foreign_keys: :receiver_id
+  has_many :sender_transactions, class_name: 'Transaction', foreign_key: :sender_id
+  has_many :receiver_transactions, class_name: 'Transaction', foreign_key: :receiver_id
 
   def transactions(status=nil)
     q = Transaction.where('sender_id = ? OR receiver_id = ?', id, id)
     q = q.where(status: status) if status.present?
-    q
+    q.order(:created_at)
   end
 
   def balance(currency, pending_debits=false)

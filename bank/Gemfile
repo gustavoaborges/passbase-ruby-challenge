@@ -38,12 +38,17 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'devise', '~>4.0'
 gem 'aasm'
-gem 'dotenv-rails'
 gem 'pg'
 gem 'money-rails', '~>1.12'
+gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
+gem "select2-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'dotenv-rails'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
