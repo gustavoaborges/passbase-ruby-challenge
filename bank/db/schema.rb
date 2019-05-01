@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_172804) do
+ActiveRecord::Schema.define(version: 2019_05_01_012438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "users_id"
+    t.bigint "sender_id"
+    t.bigint "receiver_id"
+    t.integer "original_amount_cents_cents", default: 0, null: false
+    t.string "original_amount_cents_currency", default: "USD", null: false
+    t.integer "transfered_amount_cents_cents", default: 0, null: false
+    t.string "transfered_amount_cents_currency", default: "USD", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_transactions_on_receiver_users_id"
+    t.index ["sender_id"], name: "index_transactions_on_sender_users_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_04_30_172804) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "full_name"
+    t.string "currency", default: "USD"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
