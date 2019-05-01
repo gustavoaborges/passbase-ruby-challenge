@@ -52,7 +52,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="hidden" id="ajax-example" />
+          <select id="user-select" style="width: 100%"></select>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary">Make Transfer</button>
@@ -64,19 +64,18 @@
 </div>
 <script>
       $(document).ready(function() {
-      $('#ajax-example').select2({
-        ajax: {
-          url: "/users",
-          dataType: "json",
-          results: function(data, page) {
-            console.log(data);
-            return {
-              results: $.map( data, function(person, i) {
-                return { id: person.id, text: person.name }
-              } )
+        $('#user-select').select2({
+          ajax: {
+            url: '/users',
+            dataType: 'json',
+            processResults: function (data) {
+              return {
+                results: $.map( data, function(person) {
+                  return { id: person.id, text: person.name }
+                })
+              }
             }
           }
-        }
+        });
       });
-    });
 </script>
