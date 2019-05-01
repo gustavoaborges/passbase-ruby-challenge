@@ -4,7 +4,7 @@
       <h1>Transactions</h1>
     </div>
     <div class="col-m">
-      <a class="btn btn-primary btn-lg float-right">New Transaction</a>
+      <button type="button" class="btn btn-primary btn-lg float-right"  data-toggle="modal" data-target="#exampleModal">New Transaction</a>
     </div>
   </div>
   <table class="table">
@@ -20,16 +20,63 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>+500</td>
-        <td>usd</td>
-        <td>2018</td>
-        <td>2019</td>
+    <% transactions.each do |transaction| %>
+      <tr <% if transaction.failed?  %> style="text-decoration: line-through;" <% end %>>
+        <th scope="row"><%= transaction.id %></th>
+        <td><%= transaction.sender_id == current_user.id ? 'You' : transaction.sender.full_name %></td>
+        <td><%= transaction.receiver_id == current_user.id ? 'You' : transaction.receiver.full_name %></td>
+        <td>
+
+          <%= transaction.receiver_id == current_user.id ?
+            "+#{transaction.transfered_amount.format(symbol: false)}" : "-#{transaction.original_amount.format(symbol: false)}" %>
+
+        </td>
+        <td>
+          <%= transaction.receiver_id == current_user.id ?
+            transaction.transfered_amount.currency.iso_code : transaction.original_amount.currency.iso_code %>
+            </td>
+        <td><%= transaction.created_at.to_formatted_s(:rfc822) %></td>
+        <td><%= transaction.updated_at.to_formatted_s(:rfc822) %></td>
       </tr>
+    <% end %>
     </tbody>
   </table>
   <%= paginate transactions %>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Funds Transfer</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="ajax-example" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Make Transfer</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<script>
+      $(document).ready(function() {
+      $('#ajax-example').select2({
+        ajax: {
+          url: "/users",
+          dataType: "json",
+          results: function(data, page) {
+            console.log(data);
+            return {
+              results: $.map( data, function(person, i) {
+                return { id: person.id, text: person.name }
+              } )
+            }
+          }
+        }
+      });
+    });
+</script>
