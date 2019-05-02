@@ -41,6 +41,9 @@
     <% end %>
     </tbody>
   </table>
+  <% balances.each do |b| %>
+    <span><%=b[0]%>: <%=b[1].format%></span>
+  <% end %>
   <%= paginate transactions %>
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def currencies_in_balance
-    receiver_transactions.where(status: Transaction::STATE_APPROVED).uniq.pluck(:transfered_amount_cents)
+    receiver_transactions.where(status: Transaction::STATE_APPROVED).uniq.pluck(:transfered_amount_currency)
   end
 
 end

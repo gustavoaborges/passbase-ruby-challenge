@@ -33,8 +33,9 @@ class TransactionCreator
       return amount
     end
     user.currencies_in_balance.each do |curr|
-      next if(curr == prefered)
+      next if(curr == amount.currency.iso_code)
       balance = user.balance(curr, pending_debits=true)
+
       if(currency_conversion(balance, amount.currency.iso_code) >= amount)
         return currency_conversion(amount, curr)
       end

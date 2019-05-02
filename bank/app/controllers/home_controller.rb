@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!
-  helper_method :balance,
+  helper_method :balances,
                 :transactions
 
   def balances
@@ -14,6 +14,6 @@ class HomeController < ApplicationController
   end
 
   def transactions
-    current_user.transactions.page(params[:page] || 1)
+    current_user.transactions.order(created_at: :desc).page(params[:page] || 1)
   end
 end
