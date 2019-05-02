@@ -2,7 +2,7 @@
 default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV.fetch("RAILS_DB_URL") %>
+  url: <%= ENV.fetch("RAILS_DB_URL") %>
   timeout: 5000
 
 development:

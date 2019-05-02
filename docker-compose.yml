@@ -21,6 +21,6 @@ services:
       - database
     environment:
     - RAILS_ENV=development
-    - RAILS_DB_URL=postgresql://admin:password123@database:5432/passbase
+    - RAILS_DB_URL=postgres://admin:password123@database:5432/passbase
     ports:
       - "3000:3000"
