@@ -1,11 +1,20 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  after_create :on_create
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_many :sender_transactions, class_name: 'Transaction', foreign_key: :sender_id
   has_many :receiver_transactions, class_name: 'Transaction', foreign_key: :receiver_id
+
+  def on_create
+    if (email != Rails.configuration.greeter_email)
+      g = User.find_by(email: Rails.configuration.greeter_email)
+      return nil unless g.present?
+      svc = TransactionCreator.new
+      svc.perform!(g, self, Money.new(100000, 'USD'))
+    end
+  end
 
   def transactions(status=nil)
     q = Transaction.where('sender_id = ? OR receiver_id = ?', id, id)
@@ -31,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def currencies_in_balance
-    receiver_transactions.where(status: Transaction::STATE_APPROVED).uniq.pluck(:transfered_amount_cents)
+    receiver_transactions.where(status: Transaction::STATE_APPROVED).uniq.pluck(:transfered_amount_currency)
   end
 
 end
