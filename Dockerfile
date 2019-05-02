@@ -1,6 +1,6 @@
 FROM ruby:2.4
 
-RUN apt-get update -qq && apt-get install -y postgresql-client
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 
 RUN mkdir /bank
 WORKDIR /bank
@@ -12,9 +12,9 @@ COPY bank/Gemfile.lock /bank/Gemfile.lock
 RUN bundle install
 COPY bank/. /bank
 
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# COPY entrypoint.sh /usr/bin/
+# RUN chmod +x /usr/bin/entrypoint.sh
+# ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
 # Start the main process.

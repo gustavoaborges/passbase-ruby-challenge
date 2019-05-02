@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  database:
+    image: postgres
+    restart: always
+    ports:
+    - "5432"
+    environment:
+    - POSTGRES_DB=passbase
+    - POSTGRES_USER=admin
+    - POSTGRES_PASSWORD=password123
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: app
+    links:
+      - database
+    depends_on:
+      - database
+    environment:
+    - RAILS_ENV=development
+    - RAILS_DB_URL=postgresql://admin:password123@database:5432/passbase
+    ports:
+      - "3000:3000"

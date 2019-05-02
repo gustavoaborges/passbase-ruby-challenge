@@ -1,2 +1,2 @@
-bundle exec rails db:migrate
-bundle exec rails db:seed
+rails db:migrate
+rails db:seed
