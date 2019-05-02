@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 User.find_or_create_by!(full_name: 'User greeter') do |u|
-  u.email = 'greetings@passbase.com'
+  u.email = Rails.configuration.greeter_email
   u.password = 'somethingRidicoulos'
 end
 User.find_or_create_by!(full_name: 'Gustavo Borges') do |u|
@@ -15,5 +15,9 @@ User.find_or_create_by!(full_name: 'Gustavo Borges') do |u|
 end
 User.find_or_create_by!(full_name: 'Mathias Klenk') do |u|
   u.email = 'mathias@passbase.com'
+  u.password = '123457'
+end
+User.find_or_create_by!(full_name: 'Ralph') do |u|
+  u.email = 'ralph@gmail.com'
   u.password = '123457'
 end

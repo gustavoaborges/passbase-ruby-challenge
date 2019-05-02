@@ -16,7 +16,7 @@ class TransactionCreator
     # balance = from_user.balance(amount.currency.iso_code, pending_debits=true)
     t = Transaction.create!(sender: from_user, receiver: to_user, original_amount: original_amount || amount,
                               transfered_amount: amount)
-    if(from_user.email == 'greetings@passbase.com' || original_amount.present?)
+    if(from_user.email == Rails.configuration.greeter_email || original_amount.present?)
       t.approve!
     else
       t.fail!
